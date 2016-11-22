@@ -1,0 +1,2 @@
+---
+log_path: "{{ app_base_path }}/log"

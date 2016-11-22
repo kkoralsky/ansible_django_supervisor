@@ -1,0 +1,15 @@
+galaxy_info:
+  author: Karol Ossowski
+  description: supervisor group for multi-server Django app
+
+  min_ansible_version: 1.2
+
+  platforms:
+  - name: Debian
+    versions:
+    - all
+  galaxy_tags: [ django, supervisor ]
+
+dependencies:
+  - role: debian_common
+  - role: django_common

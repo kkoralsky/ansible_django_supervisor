@@ -1,0 +1,6 @@
+---
+- name: reload supervisor
+  supervisorctl: name='{{ group_name }}:' state=restarted
+  become: true
+  tags: superuser
+  listen: "reload app"

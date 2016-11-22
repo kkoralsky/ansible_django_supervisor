@@ -1,0 +1,21 @@
+---
+- name: install supervisor
+  apt: name=supervisor
+  become: true
+  tags: superuser
+
+- name: create log dir
+  file: name='{{ log_path }}' state=directory
+
+- name: configure supervisor group
+  template:
+    src: supervisor.conf.j2
+    dest: '/etc/supervisor/conf.d/{{ group_name }}.conf'
+  become: true
+  tags: superuser
+
+  # do not notify supervisor update as it might not have config for all 
+  # services within group; config will be updated anyway by subsequent 
+  # service roles which depend on this one
+  #notify: reload supervisor
+
