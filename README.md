@@ -1,8 +1,7 @@
-Deploy Django
-=============
+Django app in supervisor group
+==============================
 
-Using `supervsior`: configure and run Django app in uWsgi and optionally with
-Daphne for async I/O.
+Manages process group of multi-server Django app in supervisor.
 
 Requirements
 ------------
@@ -12,34 +11,23 @@ Debian, Django app
 Role Variables
 --------------
 
-- `app` - determines directory structure and process names;
-- `uwsgi_ini_tpl` - path to `uwsgi.ini` template file to use, if unset, we're using
-    reasonable default one defined within role: `templates/_default_uwsgi.ini.j2`
-- `supervisor_conf_tpl` - path to supervisor configuration file, if unset we're using
-    default defined within role: templates/_default_supervisor.conf.j2
-- `use_channels` - if start Daphne for websockets & other async io's, default: no
-- `uwsgi_host` - default: `127.0.0.1`
-- `uwsgi_port` - default: `8000`
-- `uwsgi_processes` - default: 2
+- `app` - app label
+- `group_name` - group name; if unset, defaults to `{{ app }}`
+- `servers` - list of servers; if unset setting up process group is omitted
 
 Dependencies
 ------------
 
-- `xkoralsky.django_app` shares directory structure with this role
+- `xkoralsky.django_common` shares directory structure with this role
 
 Example Playbook
 ----------------
 
     - hosts: servers
       roles:
-         - { role: django_uwsgi_daphne,  }
+         - { role: django_supervisor, servers: [ app_uwsgi, app_channels_worker ]  }
 
 License
 -------
 
 BSD
-
-Author Information
-------------------
-
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).

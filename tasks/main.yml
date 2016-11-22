@@ -13,9 +13,5 @@
     dest: '/etc/supervisor/conf.d/{{ group_name }}.conf'
   become: true
   tags: superuser
-
-  # do not notify supervisor update as it might not have config for all 
-  # services within group; config will be updated anyway by subsequent 
-  # service roles which depend on this one
-  #notify: reload supervisor
-
+  when: servers|length > 0
+  notify: reload supervisor

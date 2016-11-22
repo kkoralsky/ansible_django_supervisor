@@ -1,4 +1,4 @@
 ---
 group_name: '{{app}}'
 group_priority: 10
-programs: '{{app}}_{{servers|join(","+app+"_")}}'
+programs: '{{servers|default([])|join(",")}}'
