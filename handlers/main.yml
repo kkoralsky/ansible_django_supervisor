@@ -1,6 +1,14 @@
 ---
-- name: reload supervisor
+- name: reload supervisor group
   supervisorctl: name='{{ group_name }}:' state=restarted
   become: true
   tags: superuser
   listen: "reload app"
+  when: servers is defined and servers|length > 1
+
+- name: reload supervisor
+  supervisorctl: name='{{ program_name }}' state=restarted
+  become: true
+  tags: superuser
+  listen: "reload app"
+  when: servers is not defined or servers|length <= 1

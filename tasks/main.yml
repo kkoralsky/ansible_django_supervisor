@@ -14,4 +14,4 @@
   become: true
   tags: superuser
   when: servers|length > 0
-  notify: reload supervisor
+  notify: reload supervisor group
