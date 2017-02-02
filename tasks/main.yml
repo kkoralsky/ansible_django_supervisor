@@ -3,15 +3,42 @@
   apt: name=supervisor
   become: true
   tags: superuser
+  when: isnotdocker
+
+- name: install supervisor
+  apt: name=supervisor
+  when: isdocker
 
 - name: create log dir
   file: name='{{ log_path }}' state=directory
 
+- name: create supervisor config dir
+  file: name='{{ supervisor_config_dir }}' state=directory
+  become: true
+  tags: superuser
+  when: supervisor_use_sudo
+
+- name: create supervisor config dir
+  file: name='{{ supervisor_config_dir }}' state=directory
+  when: not supervisor_use_sudo
+
 - name: configure supervisor group
   template:
     src: supervisor.conf.j2
-    dest: '/etc/supervisor/conf.d/{{ group_name }}.conf'
+    dest: '{{ supervisor_config_dir }}/{{ group_name }}.conf'
+  ignore_errors: supervisor_ignore_permission_errors
+  when: servers|length > 0 and supervisor_use_sudo
+  notify: reload supervisor group
   become: true
   tags: superuser
-  when: servers|length > 0
+
+- name: configure supervisor group
+  template:
+    src: supervisor.conf.j2
+    dest: '{{ supervisor_config_dir }}/{{ group_name }}.conf'
+  ignore_errors: supervisor_ignore_permission_errors
+  when: servers|length > 0 and not supervisor_use_sudo
   notify: reload supervisor group
+
+- name: make sure supervisor is running
+  service: name=supervisor state=started
