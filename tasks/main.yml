@@ -42,3 +42,10 @@
 
 - name: make sure supervisor is running
   service: name=supervisor state=started
+  when: not supervisor_use_sudo
+
+- name: make sure supervisor is running
+  service: name=supervisor state=started
+  when: supervisor_use_sudo
+  become: true
+  tags: superuser
