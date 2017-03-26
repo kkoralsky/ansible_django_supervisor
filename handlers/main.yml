@@ -1,30 +1,27 @@
 ---
 - name: reload supervisor group
   supervisorctl: name='{{ group_name }}:' state=restarted
-  tags: [superuser, upgrade]
+  #tags: [superuser, upgrade]
   listen: "reload app"
   ignore_errors: supervisor_ignore_handler_errors
   become: true
-  when: servers is defined and servers|length > 1 and supervisor_use_sudo
+  when: '{{ supervisor_reload }} and {{ supervisor_group }} and {{ supervisor_use_sudo }}'
 
 - name: reload supervisor
   supervisorctl: name='{{ program_name }}' state=restarted
   ignore_errors: supervisor_ignore_handler_errors
-  tags: [superuser, upgrade]
   listen: "reload app"
   become: true
-  when: (servers is not defined or servers|length <= 1) and supervisor_use_sudo
+  when: '{{ supervisor_reload }} and {{ supervisor_single }} and {{ supervisor_use_sudo }}'
 
 - name: reload supervisor group
   supervisorctl: name='{{ group_name }}:' state=restarted
-  tags: [superuser, upgrade]
   listen: "reload app"
   ignore_errors: supervisor_ignore_handler_errors
-  when: servers is defined and servers|length > 1 and not supervisor_use_sudo
+  when: '{{ supervisor_reload }} and {{ supervisor_group }} and not {{ supervisor_use_sudo }}'
 
 - name: reload supervisor
   supervisorctl: name='{{ program_name }}' state=restarted
   ignore_errors: supervisor_ignore_handler_errors
-  tags: [superuser, upgrade]
   listen: "reload app"
-  when: (servers is not defined or servers|length <= 1) and not supervisor_use_sudo
+  when: '{{ supervisor_reload }} and {{ supervisor_single }} and not {{ supervisor_use_sudo }}'

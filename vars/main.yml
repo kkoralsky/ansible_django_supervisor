@@ -1,2 +1,7 @@
 ---
 log_path: "{{ app_base_path }}/log"
+supervisor_group: (servers is defined and servers|length > 1)
+supervisor_single: (servers is not defined or servers|length <= 1)
+
+isdocker: ansible_connection == "docker"
+isnotdocker: ansible_connection != "docker"

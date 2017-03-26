@@ -8,3 +8,5 @@ supervisor_conf_tpl: _default_supervisor.conf.j2
 supervisor_config_dir: /etc/supervisor/conf.d
 supervisor_use_sudo: '{{ isnotdocker }}'
 supervisor_ignore_handler_errors: no
+
+supervisor_reload: true
