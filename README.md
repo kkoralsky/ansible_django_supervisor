@@ -15,11 +15,6 @@ Role Variables
 - `group_name` - group name; if unset, defaults to `{{ app }}`
 - `servers` - list of servers; if unset setting up process group is omitted
 
-Dependencies
-------------
-
-- `xkoralsky.django_common` shares directory structure with this role
-
 Example Playbook
 ----------------
 
