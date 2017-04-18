@@ -6,50 +6,50 @@
   listen: "reload app"
   #ignore_errors: supervisor_ignore_handler_errors
   become: true
-  when: '{{ supervisor_reload }} and {{ supervisor_group }} and {{ supervisor_use_sudo }}'
+  when: supervisor_reload and supervisor_group  and  supervisor_use_sudo
 
 - name: reload supervisor using sudo
   supervisorctl: name='{{ program_name }}' state=restarted
   #ignore_errors: supervisor_ignore_handler_errors
   listen: "reload app"
   become: true
-  when: '{{ supervisor_reload }} and {{ supervisor_single }} and {{ supervisor_use_sudo }}'
+  when: supervisor_reload and supervisor_single and supervisor_use_sudo
 
 - name: reload supervisor group
   supervisorctl: name='{{ group_name }}:' state=restarted
   listen: "reload app"
   #ignore_errors: supervisor_ignore_handler_errors
-  when: '{{ supervisor_reload }} and {{ supervisor_group }} and not {{ supervisor_use_sudo }}'
+  when: supervisor_reload and supervisor_group and not supervisor_use_sudo
 
 - name: reload supervisor
   supervisorctl: name='{{ program_name }}' state=restarted
   #ignore_errors: supervisor_ignore_handler_errors
   listen: "reload app"
-  when: '{{ supervisor_reload }} and {{ supervisor_single }} and not {{ supervisor_use_sudo }}'
+  when: supervisor_reload and supervisor_single and not supervisor_use_sudo
 
 # handlers for supervisor upd only if supervisor_reload is false
 
 - name: reload supervisor config
   listen: "reload supervisor config"
   supervisorctl: name='{{ program_name }}' name=resarted
-  when: 'not {{ supervisor_reload }} and {{ supervisor_single }} and not {{ supervisor_use_sudo }}'
+  when: not supervisor_reload and supervisor_single and not supervisor_use_sudo
 
 - name: reload supervisor config using sudo
   supervisorctl: name='{{ program_name }}' state=restarted
   #ignore_errors: supervisor_ignore_handler_errors
   listen: "reload supervisor config"
   become: true
-  when: 'not {{ supervisor_reload }} and {{ supervisor_single }} and {{ supervisor_use_sudo }}'
+  when: not supervisor_reload and supervisor_single and supervisor_use_sudo
 
 - name: reload supervisor group config using sudo
   supervisorctl: name='{{ group_name }}:' state=restarted
   #ignore_errors: supervisor_ignore_handler_errors
   listen: "reload supervisor config"
   become: true
-  when: 'not {{ supervisor_reload }} and {{ supervisor_group }} and {{ supervisor_use_sudo }}'
+  when: not supervisor_reload and supervisor_group and supervisor_use_sudo
 
 - name: reload supervisor group config
   supervisorctl: name='{{ group_name }}:' state=restarted
   listen: "reload supervisor config"
   #ignore_errors: supervisor_ignore_handler_errors
-  when: 'not {{ supervisor_reload }} and {{ supervisor_group }} and not {{ supervisor_use_sudo }}'
+  when: not supervisor_reload and supervisor_group and not supervisor_use_sudo
