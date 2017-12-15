@@ -3,11 +3,6 @@
   apt: name=supervisor
   become: true
   tags: superuser
-  when: isnotdocker
-
-- name: install supervisor
-  apt: name=supervisor
-  when: isdocker
 
 - name: create log dir
   file: name='{{ log_path }}' state=directory
@@ -27,7 +22,7 @@
     src: supervisor.conf.j2
     dest: '{{ supervisor_config_dir }}/{{ group_name }}.conf'
   ignore_errors: supervisor_ignore_permission_errors
-  when: '{{ supervisor_group }} and {{ supervisor_use_sudo }}'
+  when: supervisor_group and supervisor_use_sudo
   notify: reload supervisor group
   become: true
   tags: superuser
@@ -37,7 +32,7 @@
     src: supervisor.conf.j2
     dest: '{{ supervisor_config_dir }}/{{ group_name }}.conf'
   ignore_errors: supervisor_ignore_permission_errors
-  when: '{{ supervisor_group }} and not {{ supervisor_use_sudo }}'
+  when: supervisor_group and not supervisor_use_sudo
   notify: reload supervisor group
 
 - name: make sure supervisor is running
