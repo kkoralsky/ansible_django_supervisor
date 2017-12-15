@@ -9,7 +9,7 @@
   supervisorctl: name='{{ program_name }}' state=restarted
   listen: "reload app"
   become: true
-  when: supervisor_reload and supevisor_single and supervisor_use_sudo
+  when: supervisor_reload and supervisor_single and supervisor_use_sudo
 
 - name: reload supervisor group
   supervisorctl: name='{{ group_name }}:' state=restarted
