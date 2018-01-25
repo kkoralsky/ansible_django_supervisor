@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  roles:
+    - role: django_supervisor
+      supervisor_manage_user: koral
+      supervisor_manage_group: koral
