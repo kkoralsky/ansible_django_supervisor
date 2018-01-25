@@ -8,14 +8,17 @@
   file: name='{{ log_path }}' state=directory
 
 - name: create supervisor config dir
-  file: name='{{ supervisor_config_dir }}' state=directory
+  file: name='{{ supervisor_config_dir }}' state=directory mode='{{ supervisor_manage_mode }}'
+        owner='{{ supervisor_manage_user }}' group='{{ supervisor_manage_group }}'
   become: true
   tags: superuser
-  when: supervisor_use_sudo
+  notify: reload supervisord
 
-- name: create supervisor config dir
-  file: name='{{ supervisor_config_dir }}' state=directory
-  when: not supervisor_use_sudo
+- name: configure supervisord
+  template: src=supervisord.conf.j2 dest=/etc/supervisor/supervisord.conf
+  become: true
+  tags: superuser
+  notify: reload supervisord
 
 - name: configure supervisor group
   template:
@@ -37,10 +40,5 @@
 
 - name: make sure supervisor is running
   service: name=supervisor state=started
-  when: not supervisor_use_sudo
-
-- name: make sure supervisor is running
-  service: name=supervisor state=started
-  when: supervisor_use_sudo
   become: true
   tags: superuser

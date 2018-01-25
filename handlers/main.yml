@@ -20,3 +20,6 @@
   supervisorctl: name='{{ program_name }}' state=restarted
   listen: "reload app"
   when: supervisor_reload and supervisor_single and not supervisor_use_sudo
+
+- name: reload supervisord
+  service: name=supervisor state=restarted

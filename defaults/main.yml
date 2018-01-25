@@ -1,12 +1,16 @@
 ---
-group_name: '{{app}}'
+app_base_path: '{{ ansible_user_dir }}'
+group_name: '{{ app }}'
 group_priority: 10
 servers: []
 programs: '{{servers|join(",")}}'
 
 supervisor_conf_tpl: _default_supervisor.conf.j2
 supervisor_config_dir: /etc/supervisor/conf.d
-supervisor_use_sudo: true
-supervisor_ignore_handler_errors: no
+supervisor_use_sudo: no
+
+supervisor_manage_group: '{{ ansible_user_id }}' 
+supervisor_manage_user: '{{ ansible_user_id }}'
+supervisor_manage_mode: '0770'
 
 supervisor_reload: true
