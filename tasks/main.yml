@@ -40,3 +40,4 @@
   service: name=supervisor state=started
   become: true
   tags: superuser
+  ignore_errors: '{{ supervisor_ignore_runtime_errors }}' 

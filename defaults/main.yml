@@ -14,3 +14,4 @@ supervisor_manage_user: '{{ ansible_user_id }}'
 supervisor_manage_mode: '0770'
 
 supervisor_reload: true
+supervisor_ignore_runtime_errors: false

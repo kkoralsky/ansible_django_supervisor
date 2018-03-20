@@ -2,25 +2,30 @@
 - name: reload supervisord
   service: name=supervisor state=restarted
   become: true
+  ignore_errors: '{{ supervisor_ignore_runtime_errors }}' 
 
 - name: reload supervisor group using sudo
   supervisorctl: name='{{ group_name }}:' state=restarted
   listen: "reload app"
   become: true
   when: supervisor_reload and supervisor_group and supervisor_use_sudo
+  ignore_errors: '{{ supervisor_ignore_runtime_errors }}' 
 
 - name: reload supervisor using sudo
   supervisorctl: name='{{ program_name }}' state=restarted
   listen: "reload app"
   become: true
   when: supervisor_reload and supervisor_single and supervisor_use_sudo
+  ignore_errors: '{{ supervisor_ignore_runtime_errors }}' 
 
 - name: reload supervisor group
   supervisorctl: name='{{ group_name }}:' state=restarted
   listen: "reload app"
   when: supervisor_reload and supervisor_group and not supervisor_use_sudo
+  ignore_errors: '{{ supervisor_ignore_runtime_errors }}' 
 
 - name: reload supervisor
   supervisorctl: name='{{ program_name }}' state=restarted
   listen: "reload app"
   when: supervisor_reload and supervisor_single and not supervisor_use_sudo
+  ignore_errors: '{{ supervisor_ignore_runtime_errors }}' 
