@@ -24,7 +24,6 @@
   template:
     src: supervisor.conf.j2
     dest: '{{ supervisor_config_dir }}/{{ group_name }}.conf'
-  ignore_errors: supervisor_ignore_permission_errors
   when: supervisor_group and supervisor_use_sudo
   notify: reload supervisor group
   become: true
@@ -34,7 +33,6 @@
   template:
     src: supervisor.conf.j2
     dest: '{{ supervisor_config_dir }}/{{ group_name }}.conf'
-  ignore_errors: supervisor_ignore_permission_errors
   when: supervisor_group and not supervisor_use_sudo
   notify: reload supervisor group
 
