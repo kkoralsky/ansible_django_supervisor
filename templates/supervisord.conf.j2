@@ -17,4 +17,4 @@ supervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface
 serverurl=unix:///var/run/supervisor.sock
 
 [include]
-files = {{ supervisor_config_dir }}/*
+files = {{ supervisor_config_dir }}/*.conf
