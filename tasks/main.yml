@@ -7,6 +7,10 @@
 - name: create log dir
   file: name='{{ log_path }}' state=directory
 
+- name: ensure manage user is available
+  user: name='{{ supervisor_manage_user }}' group='{{ supervisor_manage_group }}'
+        create_home=no
+
 - name: create supervisor config dir
   file: name='{{ supervisor_config_dir }}' state=directory mode='{{ supervisor_manage_mode }}'
         owner='{{ supervisor_manage_user }}' group='{{ supervisor_manage_group }}'
@@ -24,6 +28,9 @@
   template:
     src: supervisor.conf.j2
     dest: '{{ supervisor_config_dir }}/{{ group_name }}.conf'
+    mode: '{{ supervisor_manage_mode }}'
+    owner: '{{ supervisor_manage_user }}'
+    group: '{{ supervisor_manage_group }}'
   when: supervisor_group and supervisor_use_sudo
   notify: reload supervisor group
   become: true
@@ -33,6 +40,8 @@
   template:
     src: supervisor.conf.j2
     dest: '{{ supervisor_config_dir }}/{{ group_name }}.conf'
+    mode: '{{ supervisor_manage_mode }}'
+    group: '{{ supervisor_manage_group }}'
   when: supervisor_group and not supervisor_use_sudo
   notify: reload supervisor group
 
