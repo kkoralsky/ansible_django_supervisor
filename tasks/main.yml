@@ -5,7 +5,7 @@
   tags: superuser
 
 - name: create log dir
-  file: name='{{ log_path }}' state=directory
+  file: name='{{ log_path }}' state=directory follow=yes
 
 - name: ensure manage user is available
   user: name='{{ supervisor_manage_user }}' group='{{ supervisor_manage_group }}'
