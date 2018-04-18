@@ -16,3 +16,6 @@ supervisor_manage_mode: '0770'
 supervisor_reload: true
 supervisor_stopsignal: TERM
 supervisor_ignore_runtime_errors: false
+
+supervisor_log_maxbytes: 10MB 
+supervisor_log_backups: 4
