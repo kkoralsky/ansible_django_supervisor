@@ -16,6 +16,7 @@ Role Variables
 - `servers` - list of servers; if unset setting up process group is omitted
 
 - `supervisor_config_dir` - directory where all config files are placed
+- `supervisor_user` - user predefined to run given service
 - `supervisor_manage_user` - user allowed to use supervisorctl & create/edit individual configs
 - `supervisor_manage_group` - respective group as above
 - `supervisor_manage_chmod` - octal unix perms for supervisor socket and config dir
