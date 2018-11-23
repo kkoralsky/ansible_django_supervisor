@@ -9,10 +9,12 @@ supervisor_conf_tpl: _default_supervisor.conf.j2
 supervisor_config_dir: /etc/supervisor/conf.d
 supervisor_use_sudo: no
 
+supervisor_user: '{{ ansible_user_id }}'
 supervisor_manage_group: '{{ ansible_user_id }}' 
-supervisor_manage_user: '{{ ansible_user_id }}'
+supervisor_manage_user: '{{ supervisor_user }}'
 supervisor_manage_mode: '0770'
 
+supervisor_autostart: true
 supervisor_reload: true
 supervisor_stopsignal: TERM
 supervisor_stopasgroup: true
